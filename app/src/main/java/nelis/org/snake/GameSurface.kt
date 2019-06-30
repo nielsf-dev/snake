@@ -6,12 +6,17 @@ import android.view.SurfaceView
 import android.view.SurfaceHolder
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import nelis.org.snake.domain.Pig
+import nelis.org.snake.domain.Raster
+import nelis.org.snake.domain.Snake
 
 class GameSurface(context: Context) : SurfaceView(context), SurfaceHolder.Callback {
 
-    private var gameThread: GameThread? = null
+    private var snakeManager: SnakeManager
 
-    var squareBitmap: Bitmap? = null
+    private lateinit var gameThread: GameThread
+
+    private lateinit var squareBitmap: Bitmap
 
     var left = 20f
     var top = 20f
@@ -23,34 +28,30 @@ class GameSurface(context: Context) : SurfaceView(context), SurfaceHolder.Callba
 
         // Sét callback.
         this.holder.addCallback(this)
+        this.snakeManager = SnakeManager(Snake(), Pig(), Raster())
     }
 
     fun update() {
-      //  this.chibi1!!.update()
+        snakeManager.update()
         if(left <= top)
             left++
         else
             top++
     }
 
-
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
-
         canvas.drawBitmap(squareBitmap, left, top,null)
-
-       // this.chibi1!!.draw(canvas)
+        snakeManager.draw(canvas)
     }
 
     // Implements method of SurfaceHolder.Callback
     override fun surfaceCreated(holder: SurfaceHolder) {
-
-      //  this.chibi1 = ChibiCharacter(this, chibiBitmap1, 100, 50)
         squareBitmap = BitmapFactory.decodeResource(this.resources, R.drawable.square)
 
         this.gameThread = GameThread(this, holder)
-        this.gameThread!!.setRunning(true)
-        this.gameThread!!.start()
+        this.gameThread.setRunning(true)
+        this.gameThread.start()
     }
 
     // Implements method of SurfaceHolder.Callback
