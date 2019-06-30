@@ -1,8 +1,25 @@
 package nelis.org.snake.domain
 
+import java.util.LinkedHashSet
+
 class Snake{
-    var direction: SnakeDirection = SnakeDirection.RIGHT
-    val bodyParts: ArrayList<SnakePart> = ArrayList()
+    private var _direction: SnakeDirection = SnakeDirection.RIGHT
+    var direction:SnakeDirection
+        get(){
+            return _direction
+        }
+        set(value){
+            if(_direction == SnakeDirection.RIGHT && value == SnakeDirection.LEFT)
+                return
+            if(_direction == SnakeDirection.DOWN && value == SnakeDirection.UP)
+                return
+            if(_direction == SnakeDirection.UP && value == SnakeDirection.DOWN)
+                return
+            if(_direction == SnakeDirection.LEFT && value == SnakeDirection.RIGHT)
+                return
+
+            _direction = value
+        }
 
     constructor(){
         bodyParts.add(SnakePart(2,0))
@@ -10,20 +27,24 @@ class Snake{
         bodyParts.add(SnakePart(0,0))
     }
 
-    fun updateRaster(raster: Raster){
-        raster.x = "1"
-    }
-
-    fun grow(){
-
-    }
+    val bodyParts: LinkedHashSet<SnakePart> = LinkedHashSet()
 
     fun update() {
         for(i in (bodyParts.size-1) downTo 1){
-            val snakePart = bodyParts[i]
-            val prev = bodyParts[i-1]
+            val snakePart = bodyParts.elementAt(i)
+            val prev = bodyParts.elementAt(i-1)
             snakePart.x = prev.x
+            snakePart.y = prev.y
         }
-        bodyParts[0].x ++
+
+        val head = bodyParts.elementAt(0)
+        if(_direction == SnakeDirection.RIGHT) {
+            head.x ++        }
+        if(_direction == SnakeDirection.DOWN)
+            head.y ++
+        if(_direction == SnakeDirection.LEFT)
+            head.x --
+        if(_direction == SnakeDirection.UP)
+            head.y --
     }
 }
