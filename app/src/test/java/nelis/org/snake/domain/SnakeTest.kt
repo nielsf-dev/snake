@@ -9,6 +9,11 @@ class SnakeTest{
         val snake = Snake()
         snake.update()
 
-        assertEquals("snake moet vooruit", 3, snake.bodyParts[0].x)
+        assertEquals("snake moet vooruit bij update", 3, snake.bodyParts[0].x)
+
+        snake.direction = SnakeDirection.DOWN
+        snake.update()
+
+        assertEquals("snake moet naar beneden bij direction.DOWN", 1, snake.bodyParts[0].y)
     }
 }

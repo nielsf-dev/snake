@@ -1,7 +1,7 @@
 package nelis.org.snake.domain
 
 class Snake{
-    val direction: SnakeDirection = SnakeDirection.RIGHT
+    var direction: SnakeDirection = SnakeDirection.RIGHT
     val bodyParts: ArrayList<SnakePart> = ArrayList()
 
     constructor(){
