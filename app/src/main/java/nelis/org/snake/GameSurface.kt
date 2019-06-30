@@ -64,10 +64,10 @@ class GameSurface(context: Context) : SurfaceView(context), SurfaceHolder.Callba
         var retry = true
         while (retry) {
             try {
-                this.gameThread!!.setRunning(false)
+                this.gameThread.setRunning(false)
 
                 // Parent thread must wait until the end of GameThread.
-                this.gameThread!!.join()
+                this.gameThread.join()
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
