@@ -3,34 +3,45 @@ package nelis.org.snake.domain
 import java.util.LinkedHashSet
 
 class Snake{
-    private var _direction: SnakeDirection = SnakeDirection.RIGHT
+
     var direction:SnakeDirection
-        get(){
-            return _direction
-        }
         set(value){
-            if(_direction == SnakeDirection.RIGHT && value == SnakeDirection.LEFT)
+            if(field == SnakeDirection.RIGHT && value == SnakeDirection.LEFT)
                 return
-            if(_direction == SnakeDirection.DOWN && value == SnakeDirection.UP)
+            if(field == SnakeDirection.DOWN && value == SnakeDirection.UP)
                 return
-            if(_direction == SnakeDirection.UP && value == SnakeDirection.DOWN)
+            if(field == SnakeDirection.UP && value == SnakeDirection.DOWN)
                 return
-            if(_direction == SnakeDirection.LEFT && value == SnakeDirection.RIGHT)
+            if(field == SnakeDirection.LEFT && value == SnakeDirection.RIGHT)
                 return
 
-            _direction = value
+            field = value
         }
+
+    val bodyParts: LinkedHashSet<SnakePart>
+
+    private var tail: SnakePart
 
     constructor(){
+        direction = SnakeDirection.RIGHT
+
+        bodyParts = LinkedHashSet()
         bodyParts.add(SnakePart(2,0))
         bodyParts.add(SnakePart(1,0))
-        bodyParts.add(SnakePart(0,0))
+
+        tail = SnakePart(0, 0)
+        bodyParts.add(tail)
     }
 
-    val bodyParts: LinkedHashSet<SnakePart> = LinkedHashSet()
+    fun grow(){
+        //TODO: add part @ tail
+    }
 
     fun update() {
-        for(i in (bodyParts.size-1) downTo 1){
+        val tailIndex = bodyParts.size - 1
+        tail = bodyParts.elementAt(tailIndex)
+
+        for(i in tailIndex downTo 1){
             val snakePart = bodyParts.elementAt(i)
             val prev = bodyParts.elementAt(i-1)
             snakePart.x = prev.x
@@ -38,13 +49,13 @@ class Snake{
         }
 
         val head = bodyParts.elementAt(0)
-        if(_direction == SnakeDirection.RIGHT) {
-            head.x ++        }
-        if(_direction == SnakeDirection.DOWN)
+        if(direction == SnakeDirection.RIGHT)
+            head.x ++
+        if(direction == SnakeDirection.DOWN)
             head.y ++
-        if(_direction == SnakeDirection.LEFT)
+        if(direction == SnakeDirection.LEFT)
             head.x --
-        if(_direction == SnakeDirection.UP)
+        if(direction == SnakeDirection.UP)
             head.y --
     }
 }
